@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+
+<html>
+    <body>
+        <script>
+            async function fetchanimals() {
+                const response = await fetch("http://localhost:3000/animals");
+                const animals = await response.json();
+
+                console.log({ animals });
+            }
+            fetchanimals();
+        </script>
+    </body>
+</html>
