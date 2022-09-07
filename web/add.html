@@ -6,18 +6,18 @@
 
         <form action="http://localhost:3000/animals" id="form-add">
             <label>
-                <strong>Name:</strong>
+                <strong>Breed:</strong>
+                <input type="text" name="breed" required>
+            </label>
+
+            <label>
+               <strong>Weight:</strong>
+                <input type="number" name="weight" required>
+            </label>
+
+            <label>
+               <strong>Name:</strong>
                 <input type="text" name="name">
-            </label>
-
-            <label>
-               <strong>Diameter:</strong>
-                <input type="number" name="diameter">
-            </label>
-
-            <label>
-               <strong> Moons:</strong>
-                <input type="number" name="moons">
             </label>
 
             <input type="submit" value="Add animal">

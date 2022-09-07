@@ -8,22 +8,26 @@ describe("GET /animals", () => {
     test("Valid request", async () => {
         const animals = [
             {
-                id: 4,
-                name: "Mercury",
-                description: "",
-                diameter: 1234,
-                moons: 12,
-                createdAt: "2022-08-30T10:39:20.124Z",
-                updatedAt: "2022-08-30T10:39:47.286Z",
+                id: 1,
+                breed: "Snake",
+                weight: 23,
+                name: null,
+                photoFilename: null,
+                createdAt: "2022-09-07T08:36:06.122Z",
+                createdBy: null,
+                updatedAt: "2022-09-07T08:35:41.815Z",
+                updatedBy: null,
             },
             {
-                id: 5,
-                name: "Venus",
-                description: "",
-                diameter: 5678,
-                moons: 0,
-                createdAt: "2022-08-30T10:39:41.521Z",
-                updatedAt: "2022-08-30T10:39:28.601Z",
+                id: 2,
+                breed: "Penguin",
+                weight: 37,
+                name: null,
+                photoFilename: null,
+                createdAt: "2022-09-07T08:36:24.554Z",
+                createdBy: null,
+                updatedAt: "2022-09-07T08:36:35.246Z",
+                updatedBy: null,
             },
         ];
 
@@ -44,20 +48,22 @@ describe("GET /animals", () => {
 describe("GET /animals/:id", () => {
     test("Valid request", async () => {
         const animal = {
-            id: 4,
-            name: "Mercury",
-            description: "",
-            diameter: 1234,
-            moons: 12,
-            createdAt: "2022-08-30T10:39:20.124Z",
-            updatedAt: "2022-08-30T10:39:47.286Z",
+            id: 1,
+            breed: "Snake",
+            weight: 23,
+            name: null,
+            photoFilename: null,
+            createdAt: "2022-09-07T08:36:06.122Z",
+            createdBy: null,
+            updatedAt: "2022-09-07T08:35:41.815Z",
+            updatedBy: null,
         };
 
         // @ts-ignore
         prismaMock.animal.findUnique.mockResolvedValue(animal);
 
         const response = await request
-            .get("/animals/4")
+            .get("/animals/1")
             .expect(200)
             .expect("Content-type", /application\/json/);
         expect(response.body).toEqual(animal);
@@ -67,11 +73,11 @@ describe("GET /animals/:id", () => {
         // @ts-ignore
         prismaMock.animal.findUnique.mockResolvedValue(null);
         const response = await request
-            .get("/animals/1")
+            .get("/animals/37")
             .expect(404)
             .expect("Content-Type", /text\/html/);
 
-        expect(response.text).toContain("Cannot GET /animals/1");
+        expect(response.text).toContain("Cannot GET /animals/37");
     });
 
     test("Invalid animal ID", async () => {
@@ -86,15 +92,7 @@ describe("GET /animals/:id", () => {
 
 describe("POST /animals", () => {
     test("Valid request", async () => {
-        const animal = {
-            id: 6,
-            name: "Mercury",
-            description: null,
-            diameter: 1234,
-            moons: 12,
-            createdAt: "2022-08-31T12:38:13.477Z",
-            updatedAt: "2022-08-31T12:38:13.480Z",
-        };
+        const animal = {};
 
         // @ts-ignore
         prismaMock.animal.create.mockResolvedValue(animal);
@@ -102,9 +100,9 @@ describe("POST /animals", () => {
         const response = await request
             .post("/animals")
             .send({
-                name: "Mercury",
-                diameter: 1234,
-                moons: 12,
+                breed: "Giraffe",
+                weight: 894,
+                name: null,
             })
             .expect(201)
             .expect("Content-type", /application\/json/)
@@ -116,8 +114,8 @@ describe("POST /animals", () => {
 
     test("Invalid request", async () => {
         const animal = {
-            diameter: 1234,
-            moons: 12,
+            breed: "Giraffe",
+            name: null,
         };
 
         const response = await request
@@ -136,25 +134,26 @@ describe("POST /animals", () => {
 describe("PUT /animals/:id", () => {
     test("Valid request", async () => {
         const animal = {
-            id: 6,
-            name: "Mercury",
-            description: "Lovely animal",
-            diameter: 1234,
-            moons: 12,
-            createdAt: "2022-08-31T12:38:13.477Z",
-            updatedAt: "2022-08-31T12:38:13.480Z",
+            id: 2,
+            breed: "Penguin",
+            weight: 37,
+            name: null,
+            photoFilename: null,
+            createdAt: "2022-09-07T08:36:24.554Z",
+            createdBy: null,
+            updatedAt: "2022-09-07T08:36:35.246Z",
+            updatedBy: null,
         };
 
         // @ts-ignore
         prismaMock.animal.update.mockResolvedValue(animal);
 
         const response = await request
-            .put("/animals/6")
+            .put("/animals/2")
             .send({
-                name: "Mercury",
-                description: "Lovely animal",
-                diameter: 1234,
-                moons: 12,
+                breed: "Penguin",
+                weight: 37,
+                name: "Skipper",
             })
             .expect(200)
             .expect("Content-type", /application\/json/)
@@ -166,12 +165,12 @@ describe("PUT /animals/:id", () => {
 
     test("Invalid request", async () => {
         const animal = {
-            diameter: 1234,
-            moons: 12,
+            breed: "Penguin",
+            name: "Skipper",
         };
 
         const response = await request
-            .put("/animals/1")
+            .put("/animals/2")
             .send(animal)
             .expect(422)
             .expect("Content-type", /application\/json/);
@@ -187,17 +186,16 @@ describe("PUT /animals/:id", () => {
         prismaMock.animal.update.mockRejectedValue(new Error("Error"));
 
         const response = await request
-            .put("/animals/1")
+            .put("/animals/37")
             .send({
-                name: "Mercury",
-                description: "Lovely animal",
-                diameter: 1234,
-                moons: 12,
+                breed: "Penguin",
+                weight: 37,
+                name: "Skipper",
             })
             .expect(404)
             .expect("Content-Type", /text\/html/);
 
-        expect(response.text).toContain("Cannot PUT /animals/1");
+        expect(response.text).toContain("Cannot PUT /animals/37");
     });
 
     test("Invalid animal ID", async () => {

@@ -1,10 +1,9 @@
 import { Static, Type } from "@sinclair/typebox";
 
 export const animalSchema = Type.Object({
-    name: Type.String(),
-    description: Type.Optional(Type.String()),
-    diameter: Type.Integer(),
-    moons: Type.Integer(),
+    breed: Type.String(),
+    weight: Type.Integer(),
+    name: Type.Optional(Type.String()),
 }, {additionalProperties: false});
 
 export type animalData = Static<typeof animalSchema>

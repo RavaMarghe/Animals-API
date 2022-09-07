@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Planet" ADD COLUMN "CREATEDbY" TEXT;
-ALTER TABLE "Planet" ADD COLUMN "updatedBy" TEXT;
