@@ -6,15 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
 model Animal {
     id              Int         @id @default(autoincrement())
-    breed           String
+    breed           String      @db.VarChar(255)
     weight          Int
-    name            String?
+    name            String?     @db.VarChar(255)
     photoFilename   String?
     createdAt       DateTime    @default(now())
     createdBy       String?
