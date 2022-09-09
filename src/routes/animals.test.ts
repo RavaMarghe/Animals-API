@@ -75,18 +75,18 @@ describe("GET /animals/:id", () => {
         const response = await request
             .get("/animals/37")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot GET /animals/37");
+        expect(response.body.message).toContain("Cannot GET /animals/37");
     });
 
     test("Invalid animal ID", async () => {
         const response = await request
             .get("/animals/asdf")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot GET /animals/asdf");
+        expect(response.body.message).toContain("Cannot GET /animals/asdf");
     });
 });
 
@@ -193,9 +193,9 @@ describe("PUT /animals/:id", () => {
                 name: "Skipper",
             })
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot PUT /animals/37");
+        expect(response.body.message).toContain("Cannot PUT /animals/37");
     });
 
     test("Invalid animal ID", async () => {
@@ -208,9 +208,9 @@ describe("PUT /animals/:id", () => {
                 moons: 12,
             })
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot PUT /animals/asdf");
+        expect(response.body.message).toContain("Cannot PUT /animals/asdf");
     });
 });
 
@@ -222,7 +222,6 @@ describe("DELETE /animals/:id", () => {
             .expect("Access-Control-Allow-Origin", "http://localhost:8080")
             .expect("Access-Control-Allow-Credentials", "true");
 
-        expect(response.text).toEqual("");
     });
 
     test("animal does not exist", async () => {
@@ -231,18 +230,18 @@ describe("DELETE /animals/:id", () => {
         const response = await request
             .delete("/animals/1")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot DELETE /animals/1");
+        expect(response.body.message).toContain("Cannot DELETE /animals/1");
     });
 
     test("Invalid animal ID", async () => {
         const response = await request
             .delete("/animals/asdf")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot DELETE /animals/asdf");
+        expect(response.body.message).toContain("Cannot DELETE /animals/asdf");
     });
 });
 
@@ -270,9 +269,9 @@ describe("POST /animals/:id/photo ", () => {
             .post("/animals/6/photo")
             .attach("photo", "test-fixtures/photos/file.txt")
             .expect(500)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain(
+        expect(response.body.message).toContain(
             "Error: The uploaded file must be a JPEG or a PNG image."
         );
     });
@@ -285,26 +284,26 @@ describe("POST /animals/:id/photo ", () => {
             .post("/animals/1/photo")
             .attach("photo", "test-fixtures/photos/file.png")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot POST /animals/1/photo");
+        expect(response.body.message).toContain("Cannot POST /animals/1/photo");
     });
 
     test("Invalid animal ID", async () => {
         const response = await request
             .post("/animals/asdf/photo")
             .expect(404)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("Cannot POST /animals/asdf/photo");
+        expect(response.body.message).toContain("Cannot POST /animals/asdf/photo");
     });
 
     test("Invalid test with no file upload", async () => {
         const response = await request
             .post("/animals/6/photo")
             .expect(400)
-            .expect("Content-Type", /text\/html/);
+            .expect("Content-Type", /application\/json/);
 
-        expect(response.text).toContain("No photo file uploaded.");
+        expect(response.body.message).toContain("No photo file uploaded.");
     });
 });
